@@ -1,6 +1,6 @@
-import { createTelegrafParamDecorator } from '../../utils/param-decorator.util';
-import { TelegrafParamtype } from '../../enums/telegraf-paramtype.enum';
+import { createGrammyParamDecorator } from '../../utils/param-decorator.util';
+import { GrammyParamtype } from '../../enums/grammy-paramtype.enum';
 
-export const Next: () => ParameterDecorator = createTelegrafParamDecorator(
-  TelegrafParamtype.NEXT,
+export const Next: () => ParameterDecorator = createGrammyParamDecorator(
+  GrammyParamtype.NEXT,
 );

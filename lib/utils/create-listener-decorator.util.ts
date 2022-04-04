@@ -1,6 +1,6 @@
-import { Composer } from 'telegraf';
+import { Composer } from 'grammy';
 import { ComposerMethodArgs, OnlyFunctionPropertyNames } from '../types';
-import { LISTENERS_METADATA } from '../telegraf.constants';
+import { LISTENERS_METADATA } from '../grammy.constants';
 import { ListenerMetadata } from '../interfaces';
 
 export function createListenerDecorator<
@@ -19,8 +19,9 @@ export function createListenerDecorator<
           args,
         } as ListenerMetadata,
       ];
-          
-      const previousValue = Reflect.getMetadata(LISTENERS_METADATA, descriptor.value) || [];
+
+      const previousValue =
+        Reflect.getMetadata(LISTENERS_METADATA, descriptor.value) || [];
       const value = [...previousValue, ...metadata];
       Reflect.defineMetadata(LISTENERS_METADATA, value, descriptor.value);
       return descriptor;

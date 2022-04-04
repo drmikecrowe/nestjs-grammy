@@ -1,1 +1,1 @@
-export * from './telegraf.exception';
+export * from './grammy.exception';

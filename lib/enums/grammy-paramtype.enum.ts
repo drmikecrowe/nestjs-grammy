@@ -1,4 +1,4 @@
-export enum TelegrafParamtype {
+export enum GrammyParamtype {
   CONTEXT,
   NEXT,
   SENDER,

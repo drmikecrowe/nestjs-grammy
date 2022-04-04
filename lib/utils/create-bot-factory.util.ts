@@ -1,16 +1,15 @@
-import { Telegraf } from 'telegraf';
-import { TelegrafModuleOptions } from '../interfaces';
+import { Bot } from 'grammy'
+import { GrammyModuleOptions } from '../interfaces'
 
-export async function createBotFactory(
-  options: TelegrafModuleOptions,
-): Promise<Telegraf<any>> {
-  const bot = new Telegraf<any>(options.token, options.options);
+export async function createBotFactory(options: GrammyModuleOptions): Promise<Bot<any>> {
+  const bot = new Bot<any>(options.token, options.options)
 
-  bot.use(...(options.middlewares ?? []));
+  bot.use(...(options.middlewares ?? []))
 
-  if (options.launchOptions !== false) {
-    await bot.launch(options.launchOptions);
+  if (options.pollingOptions) {
+    console.log(`pollingOptions: `, options.pollingOptions)
+    await bot.start(options.pollingOptions)
   }
 
-  return bot;
+  return bot
 }

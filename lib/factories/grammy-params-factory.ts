@@ -1,11 +1,11 @@
 import { ParamData } from '@nestjs/common';
 import { ParamsFactory } from '@nestjs/core/helpers/external-context-creator';
-import { Context } from 'telegraf';
-import { TelegrafParamtype } from '../enums/telegraf-paramtype.enum';
+import { Context } from 'grammy';
+import { GrammyParamtype } from '../enums/grammy-paramtype.enum';
 
-export class TelegrafParamsFactory implements ParamsFactory {
+export class GrammyParamsFactory implements ParamsFactory {
   exchangeKeyForValue(
-    type: TelegrafParamtype,
+    type: GrammyParamtype,
     data: ParamData,
     args: unknown[],
   ): unknown {
@@ -13,13 +13,13 @@ export class TelegrafParamsFactory implements ParamsFactory {
     const next = args[1] as Function;
 
     switch (type) {
-      case TelegrafParamtype.CONTEXT:
+      case GrammyParamtype.CONTEXT:
         return ctx;
-      case TelegrafParamtype.NEXT:
+      case GrammyParamtype.NEXT:
         return next;
-      case TelegrafParamtype.SENDER:
+      case GrammyParamtype.SENDER:
         return data && ctx.from ? ctx.from[data as string] : ctx.from;
-      case TelegrafParamtype.MESSAGE:
+      case GrammyParamtype.MESSAGE:
         return data && ctx.message ? ctx.message[data as string] : ctx.message;
       default:
         return null;

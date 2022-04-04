@@ -5,5 +5,5 @@ export * from './types';
 export * from './services';
 export * from './errors';
 export * from './execution-context';
-export * from './telegraf.constants';
-export * from './telegraf.module';
+export * from './grammy.constants';
+export * from './grammy.module';

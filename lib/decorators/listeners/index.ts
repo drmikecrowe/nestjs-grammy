@@ -1,7 +1,5 @@
 export * from './on.decorator';
 export * from './use.decorator';
-export * from './action.decorator';
-export * from './cashtag.decorator';
 export * from './command.decorator';
 export * from './game-query.decorator';
 export * from './hashtag.decorator';

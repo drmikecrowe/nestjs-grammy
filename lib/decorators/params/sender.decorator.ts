@@ -1,6 +1,6 @@
 import { PipeTransform, Type } from '@nestjs/common';
-import { createTelegrafPipesParamDecorator } from '../../utils/param-decorator.util';
-import { TelegrafParamtype } from '../../enums/telegraf-paramtype.enum';
+import { createGrammyPipesParamDecorator } from '../../utils/param-decorator.util';
+import { GrammyParamtype } from '../../enums/grammy-paramtype.enum';
 
 export function Sender(): ParameterDecorator;
 export function Sender(
@@ -14,7 +14,7 @@ export function Sender(
   property?: string | (Type<PipeTransform> | PipeTransform),
   ...pipes: (Type<PipeTransform> | PipeTransform)[]
 ) {
-  return createTelegrafPipesParamDecorator(TelegrafParamtype.SENDER)(
+  return createGrammyPipesParamDecorator(GrammyParamtype.SENDER)(
     property,
     ...pipes,
   );

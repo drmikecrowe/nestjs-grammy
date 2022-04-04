@@ -1,12 +1,12 @@
 {
-  "name": "nestjs-telegraf",
-  "version": "2.4.0",
-  "description": "Telegraf module for NestJS",
+  "name": "@drmikecrowe/nestjs-grammy",
+  "version": "2.5.0",
+  "description": "My personal hack of Alexander's Telegraf module ported to grammy for NestJS",
   "keywords": [
     "nest",
     "nestjs",
     "nestjs-module",
-    "telegraf",
+    "grammy",
     "telegram",
     "telegram bot",
     "telegram bot api",
@@ -14,11 +14,11 @@
     "bot api",
     "bot framework"
   ],
-  "homepage": "https://nestjs-telegraf.vercel.app/",
+  "homepage": "https://github.com/drmikecrowe/nestjs-grammy",
   "bugs": {
-    "url": "https://github.com/bukhalo/nestjs-telegraf/issues"
+    "url": "https://github.com/drmikecrowe/nestjs-grammy/issues"
   },
-  "repository": "git@github.com:bukhalo/nestjs-telegraf.git",
+  "repository": "git@github.com:drmikecrowe/nestjs-grammy.git",
   "funding": [
     {
       "type": "individual",
@@ -43,12 +43,6 @@
     "test": "",
     "typedoc:build": "typedoc --tsconfig ./tsconfig.typedoc.json"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -c .commitlintrc.json -E HUSKY_GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "*.ts": [
       "prettier --write"
@@ -70,17 +64,17 @@
     "eslint-plugin-prettier": "4.0.0",
     "husky": "7.0.4",
     "lint-staged": "12.3.7",
-    "prettier": "2.6.1",
+    "prettier": "2.6.2",
     "reflect-metadata": "0.1.13",
-    "telegraf": "4.7.0",
+    "grammy": "^1.7.1",
     "typedoc": "0.22.13",
-    "typescript": "4.4.4"
+    "typescript": "4.6.3"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.7.0 || ^7.0.0 || ^8.0.0",
     "@nestjs/core": "^6.7.0 || ^7.0.0 || ^8.0.0",
     "reflect-metadata": "^0.1.13",
-    "telegraf": "^4.0.0",
+    "grammy": "^1.7.1",
     "typescript": "^4.1.2"
   }
 }

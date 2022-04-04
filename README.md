@@ -1,3 +1,7 @@
+> :warning: NOT EVEN CLOSE TO READY FOR PRIMETIME
+
+# A hack porting to grammy
+
 # NestJS Telegraf ![npm](https://img.shields.io/npm/dm/nestjs-telegraf) ![GitHub last commit](https://img.shields.io/github/last-commit/bukhalo/nestjs-telegraf) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf)
 
 <img align="right" width="95" height="148" title="NestJS logotype"
@@ -5,7 +9,7 @@
 
 NestJS Telegraf – powerful solution for creating Telegram bots.
 
-This package uses the best of the NodeJS world under the hood. [Telegraf](https://github.com/telegraf/telegraf) is the most powerful library for creating bots and [NestJS](https://github.com/nestjs) is a progressive framework for creating well-architectured applications. This module provides fast and easy way for creating Telegram bots and deep integration with your NestJS application. 
+This package uses the best of the NodeJS world under the hood. [Telegraf](https://github.com/telegraf/telegraf) is the most powerful library for creating bots and [NestJS](https://github.com/nestjs) is a progressive framework for creating well-architectured applications. This module provides fast and easy way for creating Telegram bots and deep integration with your NestJS application.
 
 **Features**
 
@@ -27,14 +31,14 @@ $ npm i nestjs-telegraf telegraf
 ```
 
 ## Usage
-Once the installation process is complete, we can import the `TelegrafModule` into the root `AppModule`:
+Once the installation process is complete, we can import the `GrammyModule` into the root `AppModule`:
 ```typescript
 import { Module } from '@nestjs/common';
-import { TelegrafModule } from 'nestjs-telegraf';
+import { GrammyModule } from 'nestjs-telegraf';
 
 @Module({
   imports: [
-    TelegrafModule.forRoot({
+    GrammyModule.forRoot({
       token: 'TELEGRAM_BOT_TOKEN',
     })
   ],
