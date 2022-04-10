@@ -1,0 +1,10 @@
+{
+  "name": "nestjs-grammy",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "grammy": "^1.7.2",
+    "source-map-support": "^0.5.21"
+  }
+}

@@ -1,26 +1,76 @@
-# dependencies
-/node_modules
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# IDE
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+node_modules
+
+# IDEs and editors
 /.idea
-/.awcache
-/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
-npm-debug.log
-.DS_Store
-
-# tests
-/test
+/.sass-cache
+/connect.lock
 /coverage
-/.nyc_output
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# source
-dist
-
-# website
-/website/.cache-loader
-/website/.docusaurus
-/website/build
-/website/node_modules
-/.eslintcache
+# System Files
+.DS_Store
+Thumbs.db
+packages/sample-echo-bot/.env
+review/01-complete-app/.env.example
+review/01-complete-app/.eslintrc.js
+review/01-complete-app/.gitignore
+review/01-complete-app/jest.json
+review/01-complete-app/ngrok.sh
+review/01-complete-app/package-lock.json
+review/01-complete-app/package.json
+review/01-complete-app/tsconfig.build.json
+review/01-complete-app/tsconfig.json
+review/01-complete-app/src/app.constants.ts
+review/01-complete-app/src/app.module.ts
+review/01-complete-app/src/main.ts
+review/01-complete-app/src/common/filters/grammy-exception.filter.ts
+review/01-complete-app/src/common/guards/admin.guard.ts
+review/01-complete-app/src/common/interceptors/response-time.interceptor.ts
+review/01-complete-app/src/common/middleware/session.middleware.ts
+review/01-complete-app/src/common/models/Config.ts
+review/01-complete-app/src/common/pipes/reverse-text.pipe.ts
+review/01-complete-app/src/echo/echo.module.ts
+review/01-complete-app/src/echo/echo.service.ts
+review/01-complete-app/src/echo/echo.update.ts
+review/01-complete-app/src/greeter/greeter.module.ts
+review/01-complete-app/src/greeter/greeter.update.ts
+review/01-complete-app/src/greeter/scenes/random-number.scene.ts
+review/01-complete-app/src/interfaces/context.interface.ts
+review/01-complete-app/src/middleware/session.middleware.ts
+review/01-complete-app/test/app.e2e-spec.ts
+review/01-complete-app/test/jest-e2e.json
+review/crypto-jury-bot/crypto-jury-bot.constants.ts
+review/crypto-jury-bot/crypto-jury-bot.controller.ts
+review/crypto-jury-bot/crypto-jury-bot.module.ts
+review/crypto-jury-bot/crypto-jury-bot.service.ts
+review/crypto-jury-bot/crypto-jury-bot.update.ts
+review/crypto-jury-bot/listener/crypto-jury-bot.listener.ts
+review/crypto-jury-bot/listener/events/update-consumer.event.ts
+review/crypto-jury-bot/listener/events/webhook-enabled.event.ts

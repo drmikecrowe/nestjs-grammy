@@ -1,103 +1,90 @@
-> :warning: NOT EVEN CLOSE TO READY FOR PRIMETIME
+# NxNestGrammy
 
-# A hack porting to grammy
+This project was generated using [Nx](https://nx.dev).
 
-# NestJS Telegraf ![npm](https://img.shields.io/npm/dm/nestjs-telegraf) ![GitHub last commit](https://img.shields.io/github/last-commit/bukhalo/nestjs-telegraf) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf)
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-<img align="right" width="95" height="148" title="NestJS logotype"
-     src="https://nestjs.com/img/logo-small.svg">
+🔎 **Smart, Fast and Extensible Build System**
 
-NestJS Telegraf – powerful solution for creating Telegram bots.
+## Adding capabilities to your workspace
 
-This package uses the best of the NodeJS world under the hood. [Telegraf](https://github.com/telegraf/telegraf) is the most powerful library for creating bots and [NestJS](https://github.com/nestjs) is a progressive framework for creating well-architectured applications. This module provides fast and easy way for creating Telegram bots and deep integration with your NestJS application.
+Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
-**Features**
+These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-- Simple. Easy to use.
-- Ton of decorators available out of the box for handling bot actions.
-- Ability to create custom decorators.
-- Scenes support.
-- Telegraf plugins and custom plugins support.
-- Ability to run multiple bots simultaneously.
-- Full support of NestJS guards, interceptors, filters and pipes!
+Below are our core plugins:
 
-## Documentation
-If you want to dive fully into NestJS Telegraf then don't waste your time in this dump, check out the [documentation site](https://nestjs-telegraf.vercel.app).
+-   [React](https://reactjs.org)
+    -   `npm install --save-dev @nrwl/react`
+-   Web (no framework frontends)
+    -   `npm install --save-dev @nrwl/web`
+-   [Angular](https://angular.io)
+    -   `npm install --save-dev @nrwl/angular`
+-   [Nest](https://nestjs.com)
+    -   `npm install --save-dev @nrwl/nest`
+-   [Express](https://expressjs.com)
+    -   `npm install --save-dev @nrwl/express`
+-   [Node](https://nodejs.org)
+    -   `npm install --save-dev @nrwl/node`
 
-## Installation
+There are also many [community plugins](https://nx.dev/community) you could add.
 
-```bash
-$ npm i nestjs-telegraf telegraf
-```
+## Generate an application
 
-## Usage
-Once the installation process is complete, we can import the `GrammyModule` into the root `AppModule`:
-```typescript
-import { Module } from '@nestjs/common';
-import { GrammyModule } from 'nestjs-telegraf';
+Run `nx g @nrwl/react:app my-app` to generate an application.
 
-@Module({
-  imports: [
-    GrammyModule.forRoot({
-      token: 'TELEGRAM_BOT_TOKEN',
-    })
-  ],
-})
-export class AppModule {}
-```
+> You can use any of the plugins above to generate applications as well.
 
-Then create `app.update.ts` file and add some decorators for handling Telegram bot API updates:
+When using Nx, you can create multiple applications and libraries in the same workspace.
 
-```typescript
-import {
-  Update,
-  Start,
-  Help,
-  On,
-  Hears,
-  Context,
-} from 'nestjs-telegraf';
-import { AppService } from './app.service';
-import { Context } from './context.interface';
+## Generate a library
 
-@Update()
-export class AppUpdate {
-  constructor(private readonly appService: AppService)
+Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
-  @Start()
-  async startCommand(ctx: Context) {
-    await ctx.reply('Welcome');
-  }
+> You can also use any of the plugins above to generate libraries as well.
 
-  @Help()
-  async helpCommand(ctx: Context) {
-    await ctx.reply('Send me a sticker');
-  }
+Libraries are shareable across libraries and applications. They can be imported from `@nx-nest-grammy/mylib`.
 
-  @On('sticker')
-  async onSticker(ctx: Context) {
-    await ctx.reply('👍');
-  }
+## Development server
 
-  @Hears('hi')
-  async hearsHi(ctx: Context) {
-    await ctx.reply('Hey there');
-  }
-}
-```
+Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
-## Telegraf instance access
-If you want to use `Telegraf` instance directly, you can use `@InjectBot` for that.
-```typescript
-import { Injectable } from '@nestjs/common';
-import { InjectBot } from 'nestjs-telegraf';
-import { Telegraf } from 'telegraf';
-import { TelegrafContext } from '../common/interfaces/telegraf-context.interface.ts';
+## Code scaffolding
 
-@Injectable()
-export class EchoService {
-  constructor(@InjectBot() private bot: Telegraf<TelegrafContext>) {}
-  ...
-}
-```
-See more on a docs page: https://nestjs-telegraf.vercel.app/extras/bot-injection
+Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+
+## Build
+
+Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+
+Run `nx affected:test` to execute the unit tests affected by a change.
+
+## Running end-to-end tests
+
+Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+
+Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+
+## Understand your workspace
+
+Run `nx graph` to see a diagram of the dependencies of your projects.
+
+## Further help
+
+Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+## ☁ Nx Cloud
+
+### Distributed Computation Caching & Distributed Task Execution
+
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+
+Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+
+Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+
+Visit [Nx Cloud](https://nx.app/) to learn more.
