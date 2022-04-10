@@ -11,7 +11,10 @@ import { NestjsGrammyModule, getBotName } from 'nestjs-grammy'
   imports: [],
 })
 export class EchoBotModule {
-  constructor(private echoService: EchoService) {
+  /**
+   * constructor(private echoService: EchoService)
+   */
+  constructor() {
     log('EchoBotModule starting')
   }
 }
