@@ -1,3 +1,6 @@
+import debug from 'debug'
+const log = debug('bot:echo.update')
+
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
 import { EchoService } from './echo.service'
 import { ReverseTextPipe } from '../common/pipes/reverse-text.pipe'
@@ -5,11 +8,8 @@ import { ResponseTimeInterceptor } from '../common/interceptors/response-time.in
 import { AdminGuard } from '../common/guards/admin.guard'
 import { GrammyExceptionFilter } from '../common/filters/grammy-exception.filter'
 import { EchoBotName } from './echo.constants'
-import debug from 'debug'
-const log = debug('bot:echo.update')
-
 import { Bot, Context } from 'grammy'
-import { InjectBot, Update, Message } from 'nestjs-grammy'
+import { InjectBot, Update, Message, Start } from 'nestjs-grammy'
 
 @Update()
 @UseInterceptors(ResponseTimeInterceptor)
@@ -21,13 +21,12 @@ export class EchoUpdate {
     private readonly echoService: EchoService,
   ) {
     log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
-    bot.command('start', this.onStart)
     bot.command('help', this.onHelp)
     bot.on('message', this.onSomething)
     // bot.on('message', this.onMessage)
   }
 
-  // @Start()
+  @Start()
   async onStart(): Promise<string> {
     // const me = await this.bot.api.getMe()
     log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
