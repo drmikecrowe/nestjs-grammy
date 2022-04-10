@@ -8,16 +8,17 @@ import { EchoBotName } from './echo.constants'
 
 @Injectable()
 export class EchoService {
-  /**
-   *  constructor(@InjectBot(EchoBotName) private readonly bot: Bot<Context>) {
-   */
+  /*
   constructor() {
+   */
+  constructor(@InjectBot(EchoBotName) private readonly bot: Bot<Context>) {
     log('EchoService starting ')
   }
   echo(text: string): string {
     return `Echo: ${text}`
   }
-  showBot() {
-    log(this)
+  async showBot() {
+    await this.bot.init()
+    log(this.bot.botInfo)
   }
 }

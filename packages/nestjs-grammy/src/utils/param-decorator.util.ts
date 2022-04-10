@@ -9,13 +9,6 @@ export const createGrammyParamDecorator = (paramtype: GrammyParamtype) => {
   return (data?: ParamData): ParameterDecorator =>
     (target, key, index) => {
       const args = Reflect.getMetadata(PARAM_ARGS_METADATA, target.constructor, key) || {}
-      console.warn({
-        args,
-        paramtype,
-        index,
-        data,
-        key,
-      })
       Reflect.defineMetadata(PARAM_ARGS_METADATA, assignMetadata(args, paramtype, index, data), target.constructor, key)
     }
 }

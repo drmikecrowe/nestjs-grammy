@@ -9,9 +9,16 @@ export async function createBotFactory(options: GrammyModuleOptions): Promise<Bo
 
   bot.use(...(options.middlewares ?? []))
 
+  if (!bot.isInited()) {
+    await bot.init()
+    log(`To optimize (for example):`)
+    log(`export BOT_INFO='${JSON.stringify(bot.botInfo)}'`)
+    log(`(and in forRoot():)`)
+    log(`options: {botInfo: JSON.parse(process.env.BOT_INFO)},`)
+  }
   if (options.pollingOptions) {
     log('pollingOptions: ', options.pollingOptions)
-    await bot.start(options.pollingOptions)
+    bot.start(options.pollingOptions)
   }
   log(`createBotFactory creating bot: `, options.botName)
   return bot

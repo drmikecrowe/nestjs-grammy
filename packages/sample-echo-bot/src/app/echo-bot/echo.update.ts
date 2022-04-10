@@ -5,11 +5,11 @@ import { ResponseTimeInterceptor } from '../common/interceptors/response-time.in
 import { AdminGuard } from '../common/guards/admin.guard'
 import { GrammyExceptionFilter } from '../common/filters/grammy-exception.filter'
 import { EchoBotName } from './echo.constants'
-import { Bot, Context } from 'grammy'
-import { InjectBot, Update, Message } from 'nestjs-grammy'
-
 import debug from 'debug'
 const log = debug('bot:echo.update')
+
+import { Bot, Context } from 'grammy'
+import { InjectBot, Update, Message } from 'nestjs-grammy'
 
 @Update()
 @UseInterceptors(ResponseTimeInterceptor)
@@ -20,16 +20,23 @@ export class EchoUpdate {
     private readonly bot: Bot<Context>,
     private readonly echoService: EchoService,
   ) {
-    log('echo update starting', bot ? bot.botInfo : '(booting)')
-    bot.on('my_chat_member', this.onStart)
+    log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
+    bot.command('start', this.onStart)
     bot.command('help', this.onHelp)
+    bot.on('message', this.onSomething)
     // bot.on('message', this.onMessage)
   }
 
   // @Start()
   async onStart(): Promise<string> {
-    const me = await this.bot.api.getMe()
-    return `Hey, I'm ${me.first_name}`
+    // const me = await this.bot.api.getMe()
+    log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
+    return `Hey, I'm ${this.bot.botInfo.first_name}`
+  }
+
+  async onSomething(any: any): Promise<string> {
+    log(`Received: `, any)
+    return 'Called onSomething'
   }
 
   async onHelp(): Promise<string> {
