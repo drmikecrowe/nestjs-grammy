@@ -11,11 +11,6 @@ import { EchoBotName } from './echo-bot/echo.constants'
     NestjsGrammyModule.forRoot({
       botName: EchoBotName,
       options: { botInfo: JSON.parse(process.env.BOT_INFO) },
-      pollingOptions: {
-        onStart: botInfo => {
-          log(`Started!  I am ${botInfo.id}`)
-        },
-      },
       token: process.env.BOT_TOKEN,
       include: [EchoBotModule],
     }),

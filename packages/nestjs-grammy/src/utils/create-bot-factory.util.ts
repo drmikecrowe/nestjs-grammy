@@ -16,9 +16,9 @@ export async function createBotFactory(options: GrammyModuleOptions): Promise<Bo
     log(`(and in forRoot():)`)
     log(`options: {botInfo: JSON.parse(process.env.BOT_INFO)},`)
   }
-  if (options.pollingOptions) {
+  if (!options.webhookOptions) {
     log('pollingOptions: ', options.pollingOptions)
-    bot.start(options.pollingOptions)
+    bot.start(options.pollingOptions || {})
   }
   log(`createBotFactory creating bot: `, options.botName)
   return bot
