@@ -8,6 +8,7 @@ This project was generated using [Nx](https://nx.dev).
 # Grammy port of NestJS Telegraf
 
 - [Grammy port of NestJS Telegraf](#grammy-port-of-nestjs-telegraf)
+  - [⚠️ ALPHA STATUS](#️-alpha-status)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Grammy instance access](#grammy-instance-access)
@@ -37,6 +38,18 @@ This package uses the best of the NodeJS world under the hood. [Grammy](https://
 - Grammy plugins and custom plugins support.
 - Ability to run multiple bots simultaneously.
 - Full support of NestJS guards, interceptors, filters and pipes!
+
+## ⚠️ ALPHA STATUS
+
+To test out this repo, the following process is recommended until released:
+
+- Clone the repo
+- Run nx g @nrwl/nest:app mytestapp
+- Run nx run mytestapp:serve to run your app (or use the Nx Console from VS Code).  
+
+Reference `nestjs-grammy` normally, and it will pull in the source code from the package.
+
+The `packages/sample-echo-bot` is fully functioning and can be run with a bot token set in the environment
 
 ## Installation
 
