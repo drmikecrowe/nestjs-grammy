@@ -8,7 +8,7 @@ import { MetadataScanner } from '@nestjs/core/metadata-scanner'
 import { Module } from '@nestjs/core/injector/module'
 import { ParamMetadata } from '@nestjs/core/helpers/interfaces'
 import { ExternalContextCreator } from '@nestjs/core/helpers/external-context-creator'
-import { Composer, Context, Bot } from 'grammy'
+import { Composer, Bot } from 'grammy'
 
 import { MetadataAccessorService } from './metadata-accessor.service'
 import { PARAM_ARGS_METADATA, GRAMMY_BOT_NAME, GRAMMY_MODULE_OPTIONS } from '../nestjs-grammy.constants'

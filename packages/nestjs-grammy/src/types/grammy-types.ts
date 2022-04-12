@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Composer, FilterQuery, Middleware } from 'grammy'
 
 export type Filter<T extends any[], F> = T extends []
