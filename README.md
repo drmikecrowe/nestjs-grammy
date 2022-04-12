@@ -1,90 +1,337 @@
-# NxNestGrammy
+> :information_source: This project is heavily based on the work by [bukhalo/nestjs-telegraf](https://github.com/bukhalo/nestjs-telegraf), with adaptations to handle the different ways Grammy does events. 
+
 
 This project was generated using [Nx](https://nx.dev).
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
-
 🔎 **Smart, Fast and Extensible Build System**
 
-## Adding capabilities to your workspace
+# Grammy port of NestJS Telegraf
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+- [Grammy port of NestJS Telegraf](#grammy-port-of-nestjs-telegraf)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Grammy instance access](#grammy-instance-access)
+  - [Asynchronous Configuration](#asynchronous-configuration)
+  - [Getting Updates](#getting-updates)
+    - [Long polling](#long-polling)
+    - [Webhooks](#webhooks)
+  - [Middlewares](#middlewares)
+  - [Multiple Bots](#multiple-bots)
+  - [Standalone Applications](#standalone-applications)
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+<!-- # NestJS Grammy ![npm](https://img.shields.io/npm/dm/nestjs-telegraf) ![GitHub last commit](https://img.shields.io/github/last-commit/bukhalo/nestjs-telegraf) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf) -->
 
-Below are our core plugins:
+<img align="right" width="95" height="148" title="NestJS logotype"
+     src="https://nestjs.com/img/logo-small.svg">
 
--   [React](https://reactjs.org)
-    -   `npm install --save-dev @nrwl/react`
--   Web (no framework frontends)
-    -   `npm install --save-dev @nrwl/web`
--   [Angular](https://angular.io)
-    -   `npm install --save-dev @nrwl/angular`
--   [Nest](https://nestjs.com)
-    -   `npm install --save-dev @nrwl/nest`
--   [Express](https://expressjs.com)
-    -   `npm install --save-dev @nrwl/express`
--   [Node](https://nodejs.org)
-    -   `npm install --save-dev @nrwl/node`
+NestJS Grammy – powerful solution for creating Telegram bots.
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+This package uses the best of the NodeJS world under the hood. [Grammy](https://github.com/grammyjs/grammY) is the most powerful library for creating bots and [NestJS](https://github.com/nestjs) is a progressive framework for creating well-architectured applications. This module provides fast and easy way for creating Telegram bots and deep integration with your NestJS application.
 
-## Generate an application
+**Features**
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+- Simple. Easy to use.
+- Ton of decorators available out of the box for handling bot actions.
+- Ability to create custom decorators.
+- Scenes support.
+- Grammy plugins and custom plugins support.
+- Ability to run multiple bots simultaneously.
+- Full support of NestJS guards, interceptors, filters and pipes!
 
-> You can use any of the plugins above to generate applications as well.
+## Installation
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+```bash
+npm i TBD
+```
 
-## Generate a library
+## Usage
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+Once the installation process is complete, we can import the `NestjsGrammyModule` into the root `AppModule`:
 
-> You can also use any of the plugins above to generate libraries as well.
+> :warning: Currently, the `pollingOption` parameter is required
 
-Libraries are shareable across libraries and applications. They can be imported from `@nx-nest-grammy/mylib`.
+```typescript
+import { Module } from '@nestjs/common';
+import { NestjsGrammyModule } from 'nestjs-grammy';
 
-## Development server
+@Module({
+  imports: [
+    NestjsGrammyModule.forRoot({
+      token: 'TELEGRAM_BOT_TOKEN',
+      pollingOptions: {},
+    })
+  ],
+})
+export class AppModule {}
+```
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Then create `app.update.ts` file and add some decorators for handling Telegram bot API updates:
 
-## Code scaffolding
+```typescript
+import { Bot, Context } from 'grammy'
+import { InjectBot, Update, Message, Start, Hears, Ctx, Help, Admin } from 'nestjs-grammy'
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+@Update()
+@UseInterceptors(ResponseTimeInterceptor)
+@UseFilters(GrammyExceptionFilter)
+export class EchoUpdate {
+  constructor(
+    @InjectBot(EchoBotName)
+    private readonly bot: Bot<Context>,
+    private readonly echoService: EchoService,
+  ) {
+    log('echo update starting', this.bot ? this.bot.botInfo.id : '(booting)')
+  }
 
-## Build
+  @Start()
+  async onStart(@Ctx() ctx: Context): Promise<void> {
+    // const me = await this.bot.api.getMe()
+    log('onStart!!', this.bot ? this.bot.botInfo : '(booting)')
+    ctx.reply(`Hey, I'm ${this.bot.botInfo.first_name}`)
+  }
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+  @Help()
+  async onHelp(@Ctx() ctx: Context): Promise<void> {
+    ctx.reply('Send me any text')
+  }
 
-## Running unit tests
+  @Admin()
+  @UseGuards(AdminGuard)
+  async onAdminCommand(@Ctx() ctx: Context): Promise<void> {
+    ctx.reply('Welcome, Judge')
+  }
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+  @Hears('greetings')
+  async onMessage(@Ctx() ctx: Context, @Message('text', new ReverseTextPipe()) reversedText: string): Promise<void> {
+    ctx.reply(reversedText)
+  }
+}
+```
 
-Run `nx affected:test` to execute the unit tests affected by a change.
 
-## Running end-to-end tests
+## Grammy instance access
 
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+If you want to use `Grammy` instance directly, you can use `@InjectBot` for that.
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+```typescript
+import { Injectable } from '@nestjs/common'
+import { Bot, Context } from 'grammy'
+import { InjectBot } from 'nestjs-grammy'
 
-## Understand your workspace
+@Injectable()
+export class EchoService {
+  constructor(@InjectBot(EchoBotName) private readonly bot: Bot<Context>) {}
+  ...
+}
+```
 
-Run `nx graph` to see a diagram of the dependencies of your projects.
+## Asynchronous Configuration
 
-## Further help
+When you need to pass module options asynchronously instead of statically, use the forRootAsync() method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.
 
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+One technique is to use a factory function:
 
-## ☁ Nx Cloud
+```typescript
+NestjsGrammyModule.forRootAsync({
+  useFactory: () => ({
+    token: 'TELEGRAM_BOT_TOKEN',
+    pollingOptions: {},
+  }),
+});
+```
 
-### Distributed Computation Caching & Distributed Task Execution
+Like other [factory providers](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory), our factory function can be async and can inject dependencies through inject.
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+```typescript
+NestjsGrammyModule.forRootAsync({
+  imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+  useFactory: async (configService: ConfigService) => ({
+    token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+  }),
+  inject: [ConfigService],
+});
+```
 
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+Alternatively, you can configure the NestjsGrammyModule using a class instead of a factory, as shown below:
 
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+```typescript
+NestjsGrammyModule.forRootAsync({
+  useClass: TelegrafConfigService,
+});
+```
 
-Visit [Nx Cloud](https://nx.app/) to learn more.
+The construction above instantiates `TelegrafConfigService` inside `NestjsGrammyModule`, using it to create the required options object. Note that in this example, the `TelegrafConfigService` has to implement the `TelegrafOptionsFactory` interface, as shown below. The `NestjsGrammyModule` will call the `createTelegrafOptions()` method on the instantiated object of the supplied class.
+
+```typescript
+@Injectable()
+class TelegrafConfigService implements TelegrafOptionsFactory {
+  createTelegrafOptions(): NestjsGrammyModuleOptions {
+    return {
+      token: 'TELEGRAM_BOT_TOKEN',
+    };
+  }
+}
+```
+
+If you want to reuse an existing options provider instead of creating a private copy inside the `NestjsGrammyModule`, use the `useExisting` syntax.
+
+```typescript
+NestjsGrammyModule.forRootAsync({
+  imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+  useExisting: ConfigService,
+});
+```
+
+## Getting Updates
+
+### Long polling
+
+By default, the bot receives updates using long-polling and requires no additional action.  
+
+### Webhooks
+
+If you want to configure a telegram bot webhook, you need to get a middleware via `getBotToken` helper in your `main.ts` file.
+
+To access it, you must use the `app.get()` method, followed by the provider reference:
+
+```typescript
+import { getBotToken } from 'nestjs-telegraf';
+
+// ...
+const bot = app.get(getBotToken());
+```
+
+Now you can connect middleware:
+
+```typescript
+app.use(bot.webhookCallback('/secret-path'));
+```
+
+The last step is to specify launchOptions in `forRoot` method:
+
+```typescript
+NestjsGrammyModule.forRootAsync({
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => ({
+    token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+    launchOptions: {
+      webhook: {
+        domain: 'domain.tld',
+        hookPath: '/secret-path',
+      }
+    }
+  }),
+  inject: [ConfigService],
+});
+```
+
+
+## Middlewares 
+
+`nestjs-telegraf` has support of the Telegraf middleware packages. To use an existing middleware package, simply import it and add it to the middlewares array:
+
+```typescript
+NestjsGrammyModule.forRoot({
+  middlewares: [session()],  
+}),
+```
+
+## Multiple Bots
+
+In some cases, you may need to run multiple bots at the same time. This can also be achieved with this module. To work with multiple bots, first create the bots. In this case, bot naming becomes mandatory.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { NestjsGrammyModule } from 'nestjs-telegraf';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot(),
+    NestjsGrammyModule.forRootAsync({
+      imports: [ConfigModule],
+      botName: 'cat',  
+      useFactory: (configService: ConfigService) => ({
+        token: configService.get<string>('CAT_BOT_TOKEN'),
+      }),
+      inject: [ConfigService],
+    }),
+    NestjsGrammyModule.forRootAsync({
+      imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+      botName: 'dog',  
+      useFactory: async (configService: ConfigService) => ({
+        token: configService.get<string>('DOG_BOT_TOKEN'),
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+:::caution
+Please note that you shouldn't have multiple bots without a name, or with the same name, otherwise they will get overridden.
+:::
+
+You can also inject the `Bot` for a given bot:
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { InjectBot, Telegraf, Context } from 'nestjs-telegraf';
+
+@Injectable()
+export class EchoService {
+  constructor(@InjectBot('cat') private catBot: Telegraf<Context>) {}
+}
+```
+
+To inject a given `Bot` to a custom provider (for example, factory provider), use the `getBotToken()` function passing the name of the bot as an argument.
+
+```typescript
+{
+  provide: CatsService,
+  useFactory: (catBot: Telegraf<Context>) => {
+    return new CatsService(catBot);
+  },
+  inject: [getBotToken('cat')],
+}
+```
+
+Another useful feature of the `nestjs-telegraf` module is the ability to choose which modules should handle updates for each launched bot. By default, module searches for handlers throughout the whole app. To limit this scan to only a subset of modules, use the include property.
+
+```typescript
+NestjsGrammyModule.forRootAsync({
+  imports: [ConfigModule],
+  botName: 'cat',  
+  useFactory: (configService: ConfigService) => ({
+    token: configService.get<string>('CAT_BOT_TOKEN'),
+    include: [CatsModule],  
+  }),
+  inject: [ConfigService],
+}),
+```
+
+## Standalone Applications
+
+If you initialized your application with the [Nest CLI](https://docs.nestjs.com/cli/overview), [Express](https://expressjs.com/) framework will be installed by default along with Nest. Nest and NestJS Telegraf does not require Express for work. So if you don't plan to getting bot updates through webhooks, and you don't need a web server, you can remove Express.
+
+To do this, change the `bootstrap` function in the `main.ts` file of your project on something like that:
+
+```typescript
+async function bootstrap() {
+  const app = await NestFactory.createApplicationContext(AppModule);
+}
+bootstrap();
+```
+
+This initializes Nest as a **standalone application** (without any network listeners).
+
+All that remains is to remove unused dependencies:
+
+```bash
+npm un @nestjs/platform-express @types/express
+```
+
+:::info
+More information about standalone applications located at [Nest documentation](https://docs.nestjs.com/standalone-applications)
+:::

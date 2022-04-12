@@ -10,15 +10,23 @@
     ]
   },
   "dependencies": {
+    "@docusaurus/core": "2.0.0-beta.13",
+    "@docusaurus/preset-classic": "2.0.0-beta.13",
+    "@mdx-js/react": "^1.6.21",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "clsx": "^1.1.1",
     "grammy": "^1.7.2",
+    "prism-react-renderer": "^1.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "2.0.0-beta.13",
     "@drmikecrowe/prettier-config": "^0.2.2",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
@@ -30,6 +38,7 @@
     "@nrwl/nest": "^13.10.0",
     "@nrwl/node": "13.10.0",
     "@nrwl/workspace": "13.10.0",
+    "@nx-plus/docusaurus": "^13.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
