@@ -1,4 +1,6 @@
+import { FilterQuery } from 'grammy'
 export interface ListenerMetadata {
-  method: string
+  emitter: string
+  method: FilterQuery | string | RegExp
   args: unknown[]
 }

@@ -32,6 +32,13 @@
         "buildTarget": "sample-echo-bot:build"
       }
     },
+    "debug": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "runtimeArgs": ["--inspect-brk"],
+        "buildTarget": "sample-echo-bot:build"
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

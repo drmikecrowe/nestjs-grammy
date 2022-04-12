@@ -1,3 +1,6 @@
+import debug from 'debug'
+const log = debug('nestjs-grammy:listeners-explorer.service')
+
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common'
 import { DiscoveryService, ModuleRef, ModulesContainer } from '@nestjs/core'
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper'
@@ -87,22 +90,10 @@ export class ListenersExplorerService extends BaseExplorerService implements OnM
 
     const listenerCallbackFn = this.createContextCallback(instance, prototype, methodName)
 
-    for (const { method, args } of metadata) {
-      /* Basic callback */
-      // composer[method](...args, listenerCallbackFn);
-
-      /* Complex callback return value handing */
-      composer[method](
-        ...args,
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        async (ctx: Context, next: Function): Promise<void> => {
-          const result = await listenerCallbackFn(ctx, next)
-          if (result) {
-            await ctx.reply(String(result))
-          }
-          // TODO-Possible-Feature: Add more supported return types
-        },
-      )
+    // TODO: do we do anything with args?
+    for (const { method, emitter } of metadata) {
+      log(`Setting up listener for bot.${emitter}('${method}')`)
+      this.bot[emitter](method, listenerCallbackFn)
     }
   }
 

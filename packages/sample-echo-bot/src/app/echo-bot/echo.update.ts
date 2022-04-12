@@ -9,7 +9,7 @@ import { AdminGuard } from '../common/guards/admin.guard'
 import { GrammyExceptionFilter } from '../common/filters/grammy-exception.filter'
 import { EchoBotName } from './echo.constants'
 import { Bot, Context } from 'grammy'
-import { InjectBot, Update, Message, Start } from 'nestjs-grammy'
+import { InjectBot, Update, Message, Start, Hears, Ctx, Help, Admin } from 'nestjs-grammy'
 
 @Update()
 @UseInterceptors(ResponseTimeInterceptor)
@@ -20,36 +20,29 @@ export class EchoUpdate {
     private readonly bot: Bot<Context>,
     private readonly echoService: EchoService,
   ) {
-    log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
-    bot.command('help', this.onHelp)
-    bot.on('message', this.onSomething)
-    // bot.on('message', this.onMessage)
+    log('echo update starting', this.bot ? this.bot.botInfo.id : '(booting)')
   }
 
   @Start()
-  async onStart(): Promise<string> {
+  async onStart(@Ctx() ctx: Context): Promise<void> {
     // const me = await this.bot.api.getMe()
-    log('echo update starting', this.bot ? this.bot.botInfo : '(booting)')
-    return `Hey, I'm ${this.bot.botInfo.first_name}`
+    log('onStart!!', this.bot ? this.bot.botInfo : '(booting)')
+    ctx.reply(`Hey, I'm ${this.bot.botInfo.first_name}`)
   }
 
-  async onSomething(any: any): Promise<string> {
-    log(`Received: `, any)
-    return 'Called onSomething'
+  @Help()
+  async onHelp(@Ctx() ctx: Context): Promise<void> {
+    ctx.reply('Send me any text')
   }
 
-  async onHelp(): Promise<string> {
-    return 'Send me any text'
-  }
-
-  // @Command('admin')
+  @Admin()
   @UseGuards(AdminGuard)
-  onAdminCommand(): string {
-    return 'Welcome judge'
+  async onAdminCommand(@Ctx() ctx: Context): Promise<void> {
+    ctx.reply('Welcome, Judge')
   }
 
-  // @On('message')
-  onMessage(@Message('text', new ReverseTextPipe()) reversedText: string): string {
-    return this.echoService.echo(reversedText)
+  @Hears('greetings')
+  async onMessage(@Ctx() ctx: Context, @Message('text', new ReverseTextPipe()) reversedText: string): Promise<void> {
+    ctx.reply(reversedText)
   }
 }
