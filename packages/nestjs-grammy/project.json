@@ -1,0 +1,33 @@
+{
+  "root": "packages/nestjs-grammy",
+  "sourceRoot": "packages/nestjs-grammy/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nestjs-grammy",
+        "tsConfig": "packages/nestjs-grammy/tsconfig.lib.json",
+        "packageJson": "packages/nestjs-grammy/package.json",
+        "main": "packages/nestjs-grammy/src/index.ts",
+        "assets": ["packages/nestjs-grammy/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nestjs-grammy/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nestjs-grammy"],
+      "options": {
+        "jestConfig": "packages/nestjs-grammy/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
