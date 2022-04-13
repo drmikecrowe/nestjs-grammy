@@ -1,6 +1,3 @@
-import debug from 'debug'
-const log = debug('bot:app.module')
-
 import { Module } from '@nestjs/common'
 import { EchoBotModule } from './echo-bot/echo.module'
 import { NestjsGrammyModule } from 'nestjs-grammy'
