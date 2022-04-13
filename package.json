@@ -2,7 +2,9 @@
   "name": "nx-nest-grammy",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky install && sed -i 's@#!/bin/sh@#!/usr/bin/env bash@g' .husky/_/husky.sh && sed -i 's@sh -e@bash -e@g' .husky/_/husky.sh"
+  },
   "private": true,
   "lint-staged": {
     "*.{js,json,css,scss,md,ts,html,graphql}": [
@@ -10,8 +12,6 @@
     ]
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.13",
-    "@docusaurus/preset-classic": "2.0.0-beta.13",
     "@mdx-js/react": "^1.6.21",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
@@ -26,7 +26,8 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "2.0.0-beta.13",
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
     "@drmikecrowe/prettier-config": "^0.2.2",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
@@ -38,7 +39,6 @@
     "@nrwl/nest": "^13.10.0",
     "@nrwl/node": "13.10.0",
     "@nrwl/workspace": "13.10.0",
-    "@nx-plus/docusaurus": "^13.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
@@ -52,5 +52,10 @@
     "prettier": "^2.5.1",
     "ts-jest": "27.0.5",
     "typescript": "~4.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
