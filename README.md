@@ -61,8 +61,6 @@ npm i TBD
 
 Once the installation process is complete, we can import the `NestjsGrammyModule` into the root `AppModule`:
 
-> :warning: Currently, the `pollingOption` parameter is required
-
 ```typescript
 import { Module } from '@nestjs/common';
 import { NestjsGrammyModule } from 'nestjs-grammy';
@@ -71,7 +69,6 @@ import { NestjsGrammyModule } from 'nestjs-grammy';
   imports: [
     NestjsGrammyModule.forRoot({
       token: 'TELEGRAM_BOT_TOKEN',
-      pollingOptions: {},
     })
   ],
 })
@@ -148,7 +145,6 @@ One technique is to use a factory function:
 NestjsGrammyModule.forRootAsync({
   useFactory: () => ({
     token: 'TELEGRAM_BOT_TOKEN',
-    pollingOptions: {},
   }),
 });
 ```
