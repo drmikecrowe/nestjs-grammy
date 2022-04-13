@@ -1,24 +1,30 @@
-> :information_source: This project is heavily based on the work by [bukhalo/nestjs-telegraf](https://github.com/bukhalo/nestjs-telegraf), with adaptations to handle the different ways Grammy does events. 
+# Grammy port of NestJS Telegraf
 
+> :information_source: This project would not be possible without the help and assistance of [Aleksandr Bukhalo](https://t.me/bukhalo_a) and the fantastic [bukhalo/nestjs-telegraf](https://github.com/bukhalo/nestjs-telegraf) project.
+
+---
 
 This project was generated using [Nx](https://nx.dev).
 
 🔎 **Smart, Fast and Extensible Build System**
 
-# Grammy port of NestJS Telegraf
+---
 
-- [Grammy port of NestJS Telegraf](#grammy-port-of-nestjs-telegraf)
-  - [⚠️ ALPHA STATUS](#️-alpha-status)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Grammy instance access](#grammy-instance-access)
-  - [Asynchronous Configuration](#asynchronous-configuration)
-  - [Getting Updates](#getting-updates)
-    - [Long polling](#long-polling)
-    - [Webhooks](#webhooks)
-  - [Middlewares](#middlewares)
-  - [Multiple Bots](#multiple-bots)
-  - [Standalone Applications](#standalone-applications)
+## Table of Contents
+
+-   [Grammy port of NestJS Telegraf](#grammy-port-of-nestjs-telegraf)
+    -   [Table of Contents](#table-of-contents)
+    -   [⚠️ ALPHA STATUS](#️-alpha-status)
+    -   [Installation](#installation)
+    -   [Usage](#usage)
+    -   [Grammy instance access](#grammy-instance-access)
+    -   [Asynchronous Configuration](#asynchronous-configuration)
+    -   [Getting Updates](#getting-updates)
+        -   [Long polling](#long-polling)
+        -   [Webhooks](#webhooks)
+    -   [Middlewares](#middlewares)
+    -   [Multiple Bots](#multiple-bots)
+    -   [Standalone Applications](#standalone-applications)
 
 <!-- # NestJS Grammy ![npm](https://img.shields.io/npm/dm/nestjs-telegraf) ![GitHub last commit](https://img.shields.io/github/last-commit/bukhalo/nestjs-telegraf) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf) -->
 
@@ -31,21 +37,21 @@ This package uses the best of the NodeJS world under the hood. [Grammy](https://
 
 **Features**
 
-- Simple. Easy to use.
-- Ton of decorators available out of the box for handling bot actions.
-- Ability to create custom decorators.
-- Scenes support.
-- Grammy plugins and custom plugins support.
-- Ability to run multiple bots simultaneously.
-- Full support of NestJS guards, interceptors, filters and pipes!
+-   Simple. Easy to use.
+-   Ton of decorators available out of the box for handling bot actions.
+-   Ability to create custom decorators.
+-   Scenes support.
+-   Grammy plugins and custom plugins support.
+-   Ability to run multiple bots simultaneously.
+-   Full support of NestJS guards, interceptors, filters and pipes!
 
 ## ⚠️ ALPHA STATUS
 
 To test out this repo, the following process is recommended until released:
 
-- Clone the repo
-- Run nx g @nrwl/nest:app mytestapp
-- Run nx run mytestapp:serve to run your app (or use the Nx Console from VS Code).  
+-   Clone the repo
+-   Run nx g @nrwl/nest:app mytestapp
+-   Run nx run mytestapp:serve to run your app (or use the Nx Console from VS Code).
 
 Reference `nestjs-grammy` normally, and it will pull in the source code from the package.
 
@@ -62,15 +68,15 @@ npm i TBD
 Once the installation process is complete, we can import the `NestjsGrammyModule` into the root `AppModule`:
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { NestjsGrammyModule } from 'nestjs-grammy';
+import { Module } from '@nestjs/common'
+import { NestjsGrammyModule } from 'nestjs-grammy'
 
 @Module({
-  imports: [
-    NestjsGrammyModule.forRoot({
-      token: 'TELEGRAM_BOT_TOKEN',
-    })
-  ],
+    imports: [
+        NestjsGrammyModule.forRoot({
+            token: 'TELEGRAM_BOT_TOKEN',
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -85,39 +91,38 @@ import { InjectBot, Update, Message, Start, Hears, Ctx, Help, Admin } from 'nest
 @UseInterceptors(ResponseTimeInterceptor)
 @UseFilters(GrammyExceptionFilter)
 export class EchoUpdate {
-  constructor(
-    @InjectBot(EchoBotName)
-    private readonly bot: Bot<Context>,
-    private readonly echoService: EchoService,
-  ) {
-    log('echo update starting', this.bot ? this.bot.botInfo.id : '(booting)')
-  }
+    constructor(
+        @InjectBot(EchoBotName)
+        private readonly bot: Bot<Context>,
+        private readonly echoService: EchoService,
+    ) {
+        log('echo update starting', this.bot ? this.bot.botInfo.id : '(booting)')
+    }
 
-  @Start()
-  async onStart(@Ctx() ctx: Context): Promise<void> {
-    // const me = await this.bot.api.getMe()
-    log('onStart!!', this.bot ? this.bot.botInfo : '(booting)')
-    ctx.reply(`Hey, I'm ${this.bot.botInfo.first_name}`)
-  }
+    @Start()
+    async onStart(@Ctx() ctx: Context): Promise<void> {
+        // const me = await this.bot.api.getMe()
+        log('onStart!!', this.bot ? this.bot.botInfo : '(booting)')
+        ctx.reply(`Hey, I'm ${this.bot.botInfo.first_name}`)
+    }
 
-  @Help()
-  async onHelp(@Ctx() ctx: Context): Promise<void> {
-    ctx.reply('Send me any text')
-  }
+    @Help()
+    async onHelp(@Ctx() ctx: Context): Promise<void> {
+        ctx.reply('Send me any text')
+    }
 
-  @Admin()
-  @UseGuards(AdminGuard)
-  async onAdminCommand(@Ctx() ctx: Context): Promise<void> {
-    ctx.reply('Welcome, Judge')
-  }
+    @Admin()
+    @UseGuards(AdminGuard)
+    async onAdminCommand(@Ctx() ctx: Context): Promise<void> {
+        ctx.reply('Welcome, Judge')
+    }
 
-  @Hears('greetings')
-  async onMessage(@Ctx() ctx: Context, @Message('text', new ReverseTextPipe()) reversedText: string): Promise<void> {
-    ctx.reply(reversedText)
-  }
+    @Hears('greetings')
+    async onMessage(@Ctx() ctx: Context, @Message('text', new ReverseTextPipe()) reversedText: string): Promise<void> {
+        ctx.reply(reversedText)
+    }
 }
 ```
-
 
 ## Grammy instance access
 
@@ -143,30 +148,30 @@ One technique is to use a factory function:
 
 ```typescript
 NestjsGrammyModule.forRootAsync({
-  useFactory: () => ({
-    token: 'TELEGRAM_BOT_TOKEN',
-  }),
-});
+    useFactory: () => ({
+        token: 'TELEGRAM_BOT_TOKEN',
+    }),
+})
 ```
 
 Like other [factory providers](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory), our factory function can be async and can inject dependencies through inject.
 
 ```typescript
 NestjsGrammyModule.forRootAsync({
-  imports: [ConfigModule.forFeature(telegrafModuleConfig)],
-  useFactory: async (configService: ConfigService) => ({
-    token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
-  }),
-  inject: [ConfigService],
-});
+    imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+    useFactory: async (configService: ConfigService) => ({
+        token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+    }),
+    inject: [ConfigService],
+})
 ```
 
 Alternatively, you can configure the NestjsGrammyModule using a class instead of a factory, as shown below:
 
 ```typescript
 NestjsGrammyModule.forRootAsync({
-  useClass: TelegrafConfigService,
-});
+    useClass: TelegrafConfigService,
+})
 ```
 
 The construction above instantiates `TelegrafConfigService` inside `NestjsGrammyModule`, using it to create the required options object. Note that in this example, the `TelegrafConfigService` has to implement the `TelegrafOptionsFactory` interface, as shown below. The `NestjsGrammyModule` will call the `createTelegrafOptions()` method on the instantiated object of the supplied class.
@@ -174,11 +179,11 @@ The construction above instantiates `TelegrafConfigService` inside `NestjsGrammy
 ```typescript
 @Injectable()
 class TelegrafConfigService implements TelegrafOptionsFactory {
-  createTelegrafOptions(): NestjsGrammyModuleOptions {
-    return {
-      token: 'TELEGRAM_BOT_TOKEN',
-    };
-  }
+    createTelegrafOptions(): NestjsGrammyModuleOptions {
+        return {
+            token: 'TELEGRAM_BOT_TOKEN',
+        }
+    }
 }
 ```
 
@@ -186,16 +191,16 @@ If you want to reuse an existing options provider instead of creating a private 
 
 ```typescript
 NestjsGrammyModule.forRootAsync({
-  imports: [ConfigModule.forFeature(telegrafModuleConfig)],
-  useExisting: ConfigService,
-});
+    imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+    useExisting: ConfigService,
+})
 ```
 
 ## Getting Updates
 
 ### Long polling
 
-By default, the bot receives updates using long-polling and requires no additional action.  
+By default, the bot receives updates using long-polling and requires no additional action.
 
 ### Webhooks
 
@@ -204,44 +209,43 @@ If you want to configure a telegram bot webhook, you need to get a middleware vi
 To access it, you must use the `app.get()` method, followed by the provider reference:
 
 ```typescript
-import { getBotToken } from 'nestjs-telegraf';
+import { getBotToken } from 'nestjs-telegraf'
 
 // ...
-const bot = app.get(getBotToken());
+const bot = app.get(getBotToken())
 ```
 
 Now you can connect middleware:
 
 ```typescript
-app.use(bot.webhookCallback('/secret-path'));
+app.use(bot.webhookCallback('/secret-path'))
 ```
 
 The last step is to specify launchOptions in `forRoot` method:
 
 ```typescript
 NestjsGrammyModule.forRootAsync({
-  imports: [ConfigModule],
-  useFactory: (configService: ConfigService) => ({
-    token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
-    launchOptions: {
-      webhook: {
-        domain: 'domain.tld',
-        hookPath: '/secret-path',
-      }
-    }
-  }),
-  inject: [ConfigService],
-});
+    imports: [ConfigModule],
+    useFactory: (configService: ConfigService) => ({
+        token: configService.get<string>('TELEGRAM_BOT_TOKEN'),
+        launchOptions: {
+            webhook: {
+                domain: 'domain.tld',
+                hookPath: '/secret-path',
+            },
+        },
+    }),
+    inject: [ConfigService],
+})
 ```
 
-
-## Middlewares 
+## Middlewares
 
 `nestjs-telegraf` has support of the Telegraf middleware packages. To use an existing middleware package, simply import it and add it to the middlewares array:
 
 ```typescript
 NestjsGrammyModule.forRoot({
-  middlewares: [session()],  
+  middlewares: [session()],
 }),
 ```
 
@@ -250,30 +254,30 @@ NestjsGrammyModule.forRoot({
 In some cases, you may need to run multiple bots at the same time. This can also be achieved with this module. To work with multiple bots, first create the bots. In this case, bot naming becomes mandatory.
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { NestjsGrammyModule } from 'nestjs-telegraf';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { NestjsGrammyModule } from 'nestjs-telegraf'
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    NestjsGrammyModule.forRootAsync({
-      imports: [ConfigModule],
-      botName: 'cat',  
-      useFactory: (configService: ConfigService) => ({
-        token: configService.get<string>('CAT_BOT_TOKEN'),
-      }),
-      inject: [ConfigService],
-    }),
-    NestjsGrammyModule.forRootAsync({
-      imports: [ConfigModule.forFeature(telegrafModuleConfig)],
-      botName: 'dog',  
-      useFactory: async (configService: ConfigService) => ({
-        token: configService.get<string>('DOG_BOT_TOKEN'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+    imports: [
+        ConfigModule.forRoot(),
+        NestjsGrammyModule.forRootAsync({
+            imports: [ConfigModule],
+            botName: 'cat',
+            useFactory: (configService: ConfigService) => ({
+                token: configService.get<string>('CAT_BOT_TOKEN'),
+            }),
+            inject: [ConfigService],
+        }),
+        NestjsGrammyModule.forRootAsync({
+            imports: [ConfigModule.forFeature(telegrafModuleConfig)],
+            botName: 'dog',
+            useFactory: async (configService: ConfigService) => ({
+                token: configService.get<string>('DOG_BOT_TOKEN'),
+            }),
+            inject: [ConfigService],
+        }),
+    ],
 })
 export class AppModule {}
 ```
@@ -285,12 +289,12 @@ Please note that you shouldn't have multiple bots without a name, or with the sa
 You can also inject the `Bot` for a given bot:
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { InjectBot, Telegraf, Context } from 'nestjs-telegraf';
+import { Injectable } from '@nestjs/common'
+import { InjectBot, Telegraf, Context } from 'nestjs-telegraf'
 
 @Injectable()
 export class EchoService {
-  constructor(@InjectBot('cat') private catBot: Telegraf<Context>) {}
+    constructor(@InjectBot('cat') private catBot: Telegraf<Context>) {}
 }
 ```
 
@@ -311,10 +315,10 @@ Another useful feature of the `nestjs-telegraf` module is the ability to choose 
 ```typescript
 NestjsGrammyModule.forRootAsync({
   imports: [ConfigModule],
-  botName: 'cat',  
+  botName: 'cat',
   useFactory: (configService: ConfigService) => ({
     token: configService.get<string>('CAT_BOT_TOKEN'),
-    include: [CatsModule],  
+    include: [CatsModule],
   }),
   inject: [ConfigService],
 }),
@@ -328,9 +332,9 @@ To do this, change the `bootstrap` function in the `main.ts` file of your projec
 
 ```typescript
 async function bootstrap() {
-  const app = await NestFactory.createApplicationContext(AppModule);
+    const app = await NestFactory.createApplicationContext(AppModule)
 }
-bootstrap();
+bootstrap()
 ```
 
 This initializes Nest as a **standalone application** (without any network listeners).
