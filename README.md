@@ -1,4 +1,8 @@
-# Grammy port of NestJS Telegraf
+# ARCHIVED
+
+Please see [official plugin](https://github.com/grammyjs/nestjs) for all future development
+
+## Grammy port of NestJS Telegraf
 
 > :information_source: This project would not be possible without the help and assistance of [Aleksandr Bukhalo](https://t.me/bukhalo_a) and the fantastic [bukhalo/nestjs-telegraf](https://github.com/bukhalo/nestjs-telegraf) project.
 
